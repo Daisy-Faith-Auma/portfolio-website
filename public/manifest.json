@@ -1,0 +1,20 @@
+{
+  "name": "Daisy Auma - Portfolio",
+  "short_name": "Daisy Portfolio",
+  "description": "Portfolio website showcasing Daisy Auma's expertise in Developer Relations, Technical Writing, and AI Projects",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "developer", "technology"],
+  "lang": "en-US"
+}
