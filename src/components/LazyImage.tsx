@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import LoadingSpinner from './LoadingSpinner';
 
 interface LazyImageProps {
   src: string;
@@ -14,14 +14,15 @@ const LazyImage: React.FC<LazyImageProps> = ({
   src,
   alt,
   className = '',
-  placeholder = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PC9zdmc+',
+  placeholder,
   onLoad,
   onError
 }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isInView, setIsInView] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [isInView, setIsInView] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -31,77 +32,72 @@ const LazyImage: React.FC<LazyImageProps> = ({
           observer.disconnect();
         }
       },
-      {
-        rootMargin: '50px' // Start loading 50px before the image comes into view
-      }
+      { threshold: 0.1 }
     );
 
-    if (imgRef.current) {
-      observer.observe(imgRef.current);
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
     }
 
     return () => observer.disconnect();
   }, []);
 
   const handleLoad = () => {
-    setIsLoaded(true);
+    setIsLoading(false);
     onLoad?.();
   };
 
   const handleError = () => {
+    setIsLoading(false);
     setHasError(true);
     onError?.();
   };
 
   return (
-    <div ref={imgRef} className={`relative overflow-hidden ${className}`}>
-      {/* Placeholder */}
-      <motion.img
-        src={placeholder}
-        alt=""
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
-          isLoaded ? 'opacity-0' : 'opacity-100'
-        }`}
-        aria-hidden="true"
-      />
-      
-      {/* Actual image */}
-      {isInView && !hasError && (
-        <motion.img
-          src={src}
-          alt={alt}
-          className={`w-full h-full object-cover transition-opacity duration-300 ${
-            isLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
-          onLoad={handleLoad}
-          onError={handleError}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isLoaded ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-        />
+    <div 
+      ref={containerRef}
+      className={`relative overflow-hidden ${className}`}
+      role="img"
+      aria-label={alt}
+    >
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-800/50 backdrop-blur-sm">
+          <LoadingSpinner size="md" label={`Loading ${alt}`} />
+        </div>
       )}
       
-      {/* Error state */}
       {hasError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-          <div className="text-center text-gray-500">
-            <svg className="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-800/50 backdrop-blur-sm">
+          <div className="text-center text-gray-400">
+            <svg className="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            <p className="text-sm">Image unavailable</p>
+            <p className="text-sm">Image failed to load</p>
           </div>
         </div>
       )}
-      
-      {/* Loading indicator */}
-      {isInView && !isLoaded && !hasError && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div
-            className="w-6 h-6 border-2 border-blue-200 border-t-blue-600 rounded-full"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          />
-        </div>
+
+      {isInView && (
+        <img
+          ref={imgRef}
+          src={src}
+          alt={alt}
+          className={`w-full h-full object-cover transition-opacity duration-300 ${
+            isLoading ? 'opacity-0' : 'opacity-100'
+          }`}
+          onLoad={handleLoad}
+          onError={handleError}
+          loading="lazy"
+          decoding="async"
+        />
+      )}
+
+      {placeholder && isLoading && !hasError && (
+        <div 
+          className="absolute inset-0 bg-cover bg-center filter blur-sm"
+          style={{ backgroundImage: `url(${placeholder})` }}
+          aria-hidden="true"
+        />
       )}
     </div>
   );

@@ -16,6 +16,8 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #111827;
+    color: #ffffff;
   }
 
   button, a, input, select, textarea {
@@ -23,8 +25,32 @@
   }
 
   *:focus-visible {
-    outline: 2px solid #2563eb;
+    outline: 2px solid #a855f7;
     outline-offset: 2px;
+  }
+
+  /* Dark theme scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  @media (min-width: 640px) {
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #1f2937;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
   }
 }
 
@@ -172,6 +198,396 @@
     .text-responsive-2xl {
       font-size: 3.75rem;
       line-height: 1;
+    }
+  }
+
+  /* Modern dark theme utilities */
+  .backdrop-blur-glass {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(31, 41, 55, 0.8);
+    border: 1px solid rgba(75, 85, 99, 0.3);
+  }
+
+  .backdrop-blur-card {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(31, 41, 55, 0.5);
+    border: 1px solid rgba(75, 85, 99, 0.2);
+  }
+
+  .gradient-text-purple-pink {
+    background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gradient-text-blue-cyan {
+    background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gradient-text-white-purple {
+    background: linear-gradient(135deg, #ffffff 0%, #e9d5ff 50%, #ffffff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .mouse-cursor-gradient {
+    position: fixed;
+    width: 384px;
+    height: 384px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(40px);
+    transition: all 0.3s ease;
+  }
+
+  .animated-background-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.1;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-15px) rotate(90deg); }
+    50% { transform: translateY(-30px) rotate(180deg); }
+    75% { transform: translateY(-15px) rotate(270deg); }
+  }
+
+  .animate-float-slow {
+    animation: floatSlow 8s ease-in-out infinite;
+  }
+
+  @keyframes floatSlow {
+    0%, 100% { 
+      transform: translateY(0px) translateX(0px) rotate(0deg);
+      opacity: 0.6;
+    }
+    25% { 
+      transform: translateY(-20px) translateX(10px) rotate(90deg);
+      opacity: 0.8;
+    }
+    50% { 
+      transform: translateY(-40px) translateX(0px) rotate(180deg);
+      opacity: 1;
+    }
+    75% { 
+      transform: translateY(-20px) translateX(-10px) rotate(270deg);
+      opacity: 0.8;
+    }
+  }
+
+  .animate-bounce-slow {
+    animation: bounceSlow 3s ease-in-out infinite;
+  }
+
+  @keyframes bounceSlow {
+    0%, 100% { 
+      transform: translateY(0px) scale(1);
+      opacity: 0.7;
+    }
+    50% { 
+      transform: translateY(-10px) scale(1.05);
+      opacity: 1;
+    }
+  }
+
+  .skill-bar-animated {
+    transition: width 1s ease-out;
+    animation-fill-mode: both;
+  }
+
+  .card-hover-lift {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+
+  .card-hover-lift:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 
+      0 25px 50px -12px rgba(0, 0, 0, 0.4), 
+      0 0 40px rgba(168, 85, 247, 0.3),
+      0 0 80px rgba(168, 85, 247, 0.1);
+  }
+
+  .card-hover-lift::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .card-hover-lift:hover::before {
+    opacity: 1;
+  }
+
+  .nav-link-underline {
+    position: relative;
+  }
+
+  .nav-link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+    transition: width 0.3s ease;
+  }
+
+  .nav-link-underline:hover::after {
+    width: 100%;
+  }
+
+  /* Line clamp utilities for text truncation */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Performance optimizations for animations */
+  .card-hover-lift,
+  .animate-float-slow,
+  .animate-bounce-slow,
+  .skill-bar-animated {
+    will-change: transform;
+    transform: translateZ(0); /* Force hardware acceleration */
+    backface-visibility: hidden;
+  }
+
+  /* Optimize backdrop blur for performance */
+  .backdrop-blur-glass,
+  .backdrop-blur-card,
+  .backdrop-blur-strong {
+    will-change: backdrop-filter;
+    transform: translateZ(0);
+  }
+
+  /* Mobile-specific optimizations */
+  @media (max-width: 640px) {
+    .animate-bounce {
+      animation-duration: 1.5s;
+    }
+    
+    .hover\:scale-105:hover {
+      transform: scale(1.02);
+    }
+    
+    .hover\:scale-110:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Reduce complex animations on mobile for better performance */
+    .animate-float-slow {
+      animation-duration: 12s; /* Slower animations on mobile */
+    }
+    
+    /* Simplify backdrop blur on mobile */
+    .backdrop-blur-glass {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .backdrop-blur-card {
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+  }
+
+  /* Battery saving mode optimizations */
+  @media (prefers-reduced-motion: reduce) {
+    .card-hover-lift,
+    .animate-float-slow,
+    .animate-bounce-slow {
+      will-change: auto;
+      transform: none;
+    }
+  }
+
+  /* Staggered animation utilities */
+  .animate-stagger-1 { animation-delay: 0.1s; }
+  .animate-stagger-2 { animation-delay: 0.2s; }
+  .animate-stagger-3 { animation-delay: 0.3s; }
+  .animate-stagger-4 { animation-delay: 0.4s; }
+  .animate-stagger-5 { animation-delay: 0.5s; }
+  .animate-stagger-6 { animation-delay: 0.6s; }
+
+  /* Enhanced fade-in animations */
+  .animate-fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    animation: fadeInLeft 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-right {
+    opacity: 0;
+    transform: translateX(30px);
+    animation: fadeInRight 0.8s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    opacity: 0;
+    transform: scale(0.8);
+    animation: scaleIn 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInLeft {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeInRight {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Enhanced backdrop blur effects */
+  .backdrop-blur-glass {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background: rgba(31, 41, 55, 0.8);
+    border: 1px solid rgba(75, 85, 99, 0.3);
+  }
+
+  .backdrop-blur-card {
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    background: rgba(31, 41, 55, 0.6);
+    border: 1px solid rgba(75, 85, 99, 0.2);
+  }
+
+  .backdrop-blur-strong {
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    background: rgba(31, 41, 55, 0.9);
+    border: 1px solid rgba(75, 85, 99, 0.4);
+  }
+
+  /* Pulse glow effect */
+  .animate-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(168, 85, 247, 0.6);
+    }
+  }
+
+  /* Shimmer effect for skill bars */
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .text-gray-300 {
+      color: #e5e7eb !important; /* Lighter gray for better contrast */
+    }
+    
+    .text-gray-400 {
+      color: #d1d5db !important; /* Lighter gray for better contrast */
+    }
+    
+    .border-gray-700 {
+      border-color: #6b7280 !important; /* Lighter border for better contrast */
+    }
+    
+    .bg-gray-800 {
+      background-color: #374151 !important; /* Lighter background for better contrast */
+    }
+    
+    .backdrop-blur-card {
+      background: rgba(55, 65, 81, 0.8) !important; /* Lighter backdrop for better contrast */
+    }
+  }
+
+  /* Ensure minimum color contrast ratios for accessibility */
+  .text-gray-300 {
+    color: #d1d5db; /* WCAG AA compliant contrast ratio against dark backgrounds */
+  }
+  
+  .text-gray-400 {
+    color: #9ca3af; /* Ensure sufficient contrast */
+  }
+
+  /* Focus indicators with high contrast */
+  *:focus-visible {
+    outline: 2px solid #a855f7;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.3);
+  }
+
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    
+    /* Maintain focus visibility even with reduced motion */
+    *:focus-visible {
+      outline: 3px solid #a855f7 !important;
+      outline-offset: 2px !important;
     }
   }
 }

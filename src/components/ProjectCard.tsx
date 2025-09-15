@@ -1,190 +1,151 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, FileText } from 'lucide-react';
+import { ExternalLink, Github } from 'lucide-react';
+import LazyImage from './LazyImage';
 import type { Project } from '../types';
 
 interface ProjectCardProps {
   project: Project;
-  isReversed?: boolean;
+  index: number;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, isReversed = false }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   return (
-    <motion.div 
-      className={`flex flex-col lg:flex-row items-start lg:items-center gap-6 sm:gap-8 ${isReversed ? 'lg:flex-row-reverse' : ''}`}
-      whileHover={{ y: -5 }}
-      transition={{ duration: 0.3 }}
+    <motion.article
+      className="group relative bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700/50 hover:border-purple-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/10 focus-within:border-purple-500/70 focus-within:shadow-2xl focus-within:shadow-purple-500/20"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      whileHover={{ 
+        scale: 1.03, 
+        y: -8,
+        transition: { duration: 0.3, ease: "easeOut" }
+      }}
+      viewport={{ once: true }}
+      role="article"
+      aria-labelledby={`project-title-${index}`}
+      aria-describedby={`project-description-${index}`}
     >
-      {/* Project Content */}
-      <motion.div 
-        className="flex-1 space-y-4 sm:space-y-6"
-        initial={{ opacity: 0, x: isReversed ? 50 : -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        viewport={{ once: true }}
-      >
+      {/* Project Image with Enhanced Overlay */}
+      <div className="relative h-40 sm:h-48 overflow-hidden">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          viewport={{ once: true }}
+          className="w-full h-full transition-transform duration-500 group-hover:scale-110"
+          whileHover={{ scale: 1.1 }}
+          transition={{ duration: 0.5 }}
         >
-          <h3 className="text-responsive-md font-bold text-neutral-900 mb-3 sm:mb-4">{project.title}</h3>
-          <p className="text-responsive-xs text-neutral-600 leading-relaxed">{project.description}</p>
+          <LazyImage
+            src={project.image}
+            alt={`Screenshot of ${project.title} project showing ${project.description.split('.')[0].toLowerCase()}`}
+            className="w-full h-full"
+          />
         </motion.div>
-
-        {/* Impact Metrics */}
-        <motion.div 
-          className="space-y-3"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          viewport={{ once: true }}
-        >
-          <h4 className="text-responsive-sm font-semibold text-neutral-800">Key Achievements</h4>
-          <ul className="space-y-2">
-            {project.impact.map((achievement, index) => (
-              <motion.li 
-                key={index} 
-                className="flex items-start"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <motion.div 
-                  className="w-2 h-2 bg-gradient-to-r from-brand-500 to-accent-500 rounded-full mt-2 mr-3 flex-shrink-0 shadow-brand"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  transition={{ duration: 0.3, delay: 0.6 + index * 0.1 }}
-                  viewport={{ once: true }}
-                />
-                <span className="text-sm sm:text-base text-neutral-700 leading-relaxed">{achievement}</span>
-              </motion.li>
-            ))}
-          </ul>
-        </motion.div>
-
-        {/* Technology Tags */}
-        <motion.div 
-          className="space-y-3"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h4 className="text-responsive-sm font-semibold text-neutral-800">Technologies</h4>
-          <div className="flex flex-wrap gap-2">
-            {project.tags.map((tag, index) => (
-              <motion.span
-                key={index}
-                className="px-2 sm:px-3 py-1 bg-gradient-to-r from-brand-100 to-accent-100 text-brand-800 text-xs sm:text-sm font-medium rounded-full border border-brand-200/50"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: 0.7 + index * 0.05 }}
-                whileHover={{ scale: 1.05, boxShadow: "var(--shadow-brand)" }}
-                viewport={{ once: true }}
-              >
-                {tag}
-              </motion.span>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Project Links */}
-        {project.links && (
-          <motion.div 
-            className="flex flex-col xs:flex-row flex-wrap gap-3 sm:gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            viewport={{ once: true }}
-          >
-            {project.links.demo && (
-              <motion.a
-                href={project.links.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-touch btn-brand inline-flex items-center justify-center px-4 py-2 font-medium rounded-xl transition-all duration-300"
-                aria-label={`View live demo of ${project.title} (opens in new tab)`}
-                whileHover={{ 
-                  scale: 1.05, 
-                  y: -2,
-                  boxShadow: "var(--shadow-brand-lg)"
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <ExternalLink className="w-4 h-4 mr-2" />
-                Live Demo
-              </motion.a>
-            )}
-            {project.links.repo && (
-              <motion.a
-                href={project.links.repo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-touch inline-flex items-center justify-center px-4 py-2 bg-neutral-800 text-white font-medium rounded-xl hover:bg-neutral-900 transition-all duration-300 shadow-card hover:shadow-card-hover"
-                aria-label={`View ${project.title} repository on GitHub (opens in new tab)`}
-                whileHover={{ 
-                  scale: 1.05, 
-                  y: -2,
-                  boxShadow: "0 10px 25px rgba(0,0,0,0.3)"
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Github className="w-4 h-4 mr-2" />
-                Repository
-              </motion.a>
-            )}
-            {project.links.article && (
-              <motion.a
-                href={project.links.article}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-touch inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-accent-600 to-accent-700 text-white font-medium rounded-xl hover:from-accent-700 hover:to-accent-800 transition-all duration-300 shadow-accent hover:shadow-accent-lg"
-                aria-label={`Read article about ${project.title} (opens in new tab)`}
-                whileHover={{ 
-                  scale: 1.05, 
-                  y: -2,
-                  boxShadow: "var(--shadow-accent-lg)"
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <FileText className="w-4 h-4 mr-2" />
-                Article
-              </motion.a>
-            )}
-          </motion.div>
-        )}
-      </motion.div>
-
-      {/* Visual Element Placeholder */}
-      <motion.div 
-        className="flex-shrink-0 w-full lg:w-80 h-48 sm:h-64 bg-gradient-to-br from-brand-100 via-white to-accent-100 rounded-xl flex items-center justify-center order-first lg:order-none border border-brand-200/30 shadow-card"
-        initial={{ opacity: 0, x: isReversed ? -50 : 50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        whileHover={{ 
-          scale: 1.02,
-          boxShadow: "var(--shadow-brand-lg)"
-        }}
-        viewport={{ once: true }}
-        role="img"
-        aria-label={`Visual representation for ${project.title} project`}
-      >
-        <div className="text-center text-neutral-500">
-          <motion.div 
-            className="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 shadow-brand border border-brand-200/30"
-            whileHover={{ rotate: 360, boxShadow: "var(--shadow-glow)" }}
-            transition={{ duration: 0.6 }}
-            aria-hidden="true"
-          >
-            <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-brand-500" />
-          </motion.div>
-          <p className="text-xs sm:text-sm font-medium" aria-hidden="true">Project Visual</p>
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        
+        {/* Floating Action Buttons */}
+        <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex gap-1.5 sm:gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+          {project.github && (
+            <motion.a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1.5 sm:p-2 bg-gray-900/80 backdrop-blur-sm text-white rounded-full hover:bg-gray-800 focus:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-colors btn-touch"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              aria-label={`View source code for ${project.title} on GitHub`}
+            >
+              <Github className="w-3 h-3 sm:w-4 sm:h-4" />
+            </motion.a>
+          )}
+          {project.live && (
+            <motion.a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1.5 sm:p-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full hover:from-purple-600 hover:to-pink-600 focus:from-purple-600 focus:to-pink-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all btn-touch"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              aria-label={`View live demo of ${project.title}`}
+            >
+              <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
+            </motion.a>
+          )}
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+
+      {/* Project Content */}
+      <div className="p-4 sm:p-6">
+        <motion.h3 
+          id={`project-title-${index}`}
+          className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300 line-clamp-2"
+          whileHover={{ scale: 1.02 }}
+        >
+          {project.title}
+        </motion.h3>
+        <p 
+          id={`project-description-${index}`}
+          className="text-gray-300 mb-3 sm:mb-4 text-sm sm:text-base leading-relaxed group-hover:text-gray-200 transition-colors duration-300 line-clamp-3"
+        >
+          {project.description}
+        </p>
+
+        {/* Enhanced Technology Tags */}
+        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
+          {project.tech.slice(0, 4).map((tech, techIndex) => (
+            <motion.span
+              key={techIndex}
+              className="px-2 sm:px-3 py-1 bg-gray-700/50 backdrop-blur-sm text-gray-300 text-xs sm:text-sm rounded-full border border-gray-600/50 hover:border-purple-500/50 hover:bg-purple-500/10 hover:text-purple-300 transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: techIndex * 0.1 }}
+            >
+              {tech}
+            </motion.span>
+          ))}
+          {project.tech.length > 4 && (
+            <span className="px-2 sm:px-3 py-1 bg-gray-700/50 text-gray-400 text-xs sm:text-sm rounded-full">
+              +{project.tech.length - 4}
+            </span>
+          )}
+        </div>
+
+        {/* Enhanced Project Links */}
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+          {project.github && (
+            <motion.a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-gray-700/50 backdrop-blur-sm text-white rounded-lg border border-gray-600/50 hover:border-gray-500 hover:bg-gray-600/50 focus:border-gray-500 focus:bg-gray-600/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-300 btn-touch text-sm sm:text-base"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label={`View source code for ${project.title} on GitHub`}
+            >
+              <Github className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+              Code
+            </motion.a>
+          )}
+          {project.live && (
+            <motion.a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 hover:shadow-lg hover:shadow-purple-500/25 focus:from-purple-600 focus:to-pink-600 focus:shadow-lg focus:shadow-purple-500/25 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-300 btn-touch text-sm sm:text-base"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label={`View live demo of ${project.title}`}
+            >
+              <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+              Live Demo
+            </motion.a>
+          )}
+        </div>
+      </div>
+
+      {/* Subtle Border Glow Effect */}
+      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+    </motion.article>
   );
 };
 

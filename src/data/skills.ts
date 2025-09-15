@@ -1,169 +1,48 @@
+import React from 'react';
+import { FileText, Users, Brain, Code, Video, Award } from 'lucide-react';
 import type { Skill } from '../types';
 
 export const skills: Skill[] = [
   {
-    id: 'technical-writing',
-    title: 'Technical Writing & Documentation',
-    description: 'Creating comprehensive documentation and tutorials that improve developer experience and accelerate product adoption.',
-    icon: 'FileText',
-    projects: [
-      {
-        title: 'Cloudflare Documentation Projects',
-        description: 'Led comprehensive documentation initiatives for Cloudflare products, creating developer-focused guides and API references.',
-        impact: [
-          'Improved developer onboarding experience',
-          'Reduced support ticket volume by 30%',
-          'Enhanced product adoption rates'
-        ],
-        tags: ['Technical Writing', 'API Documentation', 'Developer Experience', 'Cloudflare'],
-        links: {
-          article: 'https://developers.cloudflare.com'
-        }
-      },
-      {
-        title: 'Tutorial Creation & Developer Guides',
-        description: 'Authored step-by-step tutorials and best practice guides for complex technical implementations.',
-        impact: [
-          'Created 50+ technical tutorials',
-          'Reached 10,000+ developers monthly',
-          'Improved documentation clarity scores by 40%'
-        ],
-        tags: ['Tutorial Writing', 'Best Practices', 'Developer Education'],
-        links: {
-          article: 'https://dev.to/daisyauma'
-        }
-      }
-    ]
+    name: 'Technical Writing & Documentation',
+    icon: React.createElement(FileText, { className: 'w-8 h-8' }),
+    level: 95,
+    color: 'from-purple-500 to-pink-500',
+    description: 'Expert in creating comprehensive documentation for Archetype AI and Cloudflare, including Workers AI, AI Gateway, and Browser Rendering tutorials. Authored 10+ tutorials, setup guides, and API references that improved developer onboarding by 40%.'
   },
   {
-    id: 'developer-relations',
-    title: 'Developer Relations & Community',
-    description: 'Building and nurturing developer communities through engagement, education, and strategic partnerships.',
-    icon: 'Users',
-    projects: [
-      {
-        title: 'Lux Tech Academy Community Growth',
-        description: 'Co-founded and led community initiatives that transformed Lux Tech Academy into a thriving developer ecosystem.',
-        impact: [
-          'Grew community from 0 to 5,000+ active members',
-          'Achieved 85% engagement rate in programs',
-          'Launched 12 successful bootcamp cohorts'
-        ],
-        tags: ['Community Building', 'Developer Relations', 'Education', 'Leadership'],
-        links: {
-          demo: 'https://luxtechacademy.com'
-        }
-      },
-      {
-        title: 'Event Hosting & Developer Engagement',
-        description: 'Organized and hosted technical events, workshops, and mentorship programs for the developer community.',
-        impact: [
-          'Hosted 25+ technical workshops',
-          'Mentored 100+ aspiring developers',
-          'Achieved 95% participant satisfaction rate'
-        ],
-        tags: ['Event Management', 'Mentorship', 'Public Speaking', 'Community Engagement']
-      }
-    ]
+    name: 'Developer Relations & Community',
+    icon: React.createElement(Users, { className: 'w-8 h-8' }),
+    level: 98,
+    color: 'from-blue-500 to-cyan-500',
+    description: 'Scaled Lux Tech Academy to 20k+ learners and graduated 300+ bootcamp students. Google Community Builder Recognition and Women Techmakers Ambassador. Led DevRel initiatives at Kudan Robotics with Mobile Mapping and AMR Robot Kit evaluations.'
   },
   {
-    id: 'ai-data-projects',
-    title: 'AI & Data Projects',
-    description: 'Developing intelligent applications and data-driven solutions using modern AI/ML technologies and frameworks.',
-    icon: 'Brain',
-    projects: [
-      {
-        title: 'Spotify Wrapped Clone',
-        description: 'Built a personalized music analytics application that recreates Spotify Wrapped functionality with enhanced insights.',
-        impact: [
-          'Processed 1M+ music data points',
-          'Achieved 95% accuracy in music preference prediction',
-          'Generated personalized insights for 500+ users'
-        ],
-        tags: ['Python', 'Data Analysis', 'Spotify API', 'Machine Learning', 'Visualization'],
-        links: {
-          repo: 'https://github.com/daisyauma/spotify-wrapped-clone',
-          demo: 'https://spotify-wrapped-clone.netlify.app'
-        }
-      },
-      {
-        title: 'F1 Prediction Model',
-        description: 'Developed a machine learning model to predict Formula 1 race outcomes using historical data and performance metrics.',
-        impact: [
-          'Achieved 78% prediction accuracy',
-          'Analyzed 10+ years of F1 historical data',
-          'Implemented real-time prediction updates'
-        ],
-        tags: ['Machine Learning', 'Python', 'Pandas', 'Scikit-learn', 'Data Visualization', 'Sports Analytics'],
-        links: {
-          repo: 'https://github.com/daisyauma/f1-prediction-model'
-        }
-      }
-    ]
+    name: 'AI & Data Projects',
+    icon: React.createElement(Brain, { className: 'w-8 h-8' }),
+    level: 88,
+    color: 'from-green-500 to-emerald-500',
+    description: 'Built ML models for F1 race predictions and Spotify data visualization with music mood analysis. Proficient in Python, pandas, scikit-learn, and TensorFlow. Completed AI certificate and developed intelligent applications with real-world impact.'
   },
   {
-    id: 'content-creation',
-    title: 'Content Creation',
-    description: 'Creating engaging technical content across multiple platforms to educate and inspire the developer community.',
-    icon: 'Video',
-    projects: [
-      {
-        title: 'YouTube & TikTok Technical Content',
-        description: 'Producing educational videos covering web development, AI, and career advice for developers.',
-        impact: [
-          '50,000+ total video views',
-          '2,500+ subscribers across platforms',
-          '90% positive engagement rate'
-        ],
-        tags: ['Video Production', 'Education', 'Social Media', 'Developer Content'],
-        links: {
-          demo: 'https://youtube.com/@daisyauma'
-        }
-      },
-      {
-        title: 'Substack & Dev.to Publications',
-        description: 'Writing in-depth technical articles and career guidance for developers through newsletter and blog platforms.',
-        impact: [
-          'Published 30+ technical articles',
-          '5,000+ newsletter subscribers',
-          'Featured in Dev.to top posts 5 times'
-        ],
-        tags: ['Technical Writing', 'Newsletter', 'Career Advice', 'Developer Experience'],
-        links: {
-          article: 'https://daisyauma.substack.com'
-        }
-      }
-    ]
+    name: 'Software & Systems Development',
+    icon: React.createElement(Code, { className: 'w-8 h-8' }),
+    level: 92,
+    color: 'from-orange-500 to-red-500',
+    description: 'Expert in C++, Python, ROS, and SLAM systems for robotics applications. Built MPESA Daraja API integration serving 10,000+ users at Safaricom. Android development certified with experience in mobile app development and system architecture.'
   },
   {
-    id: 'leadership-mentorship',
-    title: 'Leadership & Mentorship',
-    description: 'Leading teams and mentoring developers through structured programs and educational initiatives.',
-    icon: 'Award',
-    projects: [
-      {
-        title: 'Bootcamp Design & Execution',
-        description: 'Designed and executed comprehensive coding bootcamps focusing on full-stack development and career readiness.',
-        impact: [
-          'Graduated 200+ developers',
-          '85% job placement rate within 6 months',
-          'Average salary increase of 150% for graduates'
-        ],
-        tags: ['Curriculum Design', 'Education', 'Career Development', 'Full-Stack Development'],
-        links: {
-          demo: 'https://luxtechacademy.com/bootcamp'
-        }
-      },
-      {
-        title: 'Co-founder & Strategic Leadership',
-        description: 'Co-founded Lux Tech Academy and led strategic initiatives to scale educational programs and community impact.',
-        impact: [
-          'Scaled organization to 15+ team members',
-          'Secured partnerships with 10+ tech companies',
-          'Generated $500K+ in program revenue'
-        ],
-        tags: ['Leadership', 'Strategy', 'Business Development', 'Team Management']
-      }
-    ]
+    name: 'Content Creation & Education',
+    icon: React.createElement(Video, { className: 'w-8 h-8' }),
+    level: 85,
+    color: 'from-pink-500 to-rose-500',
+    description: 'Created YouTube and TikTok AI explainers reaching thousands of developers. Published technical articles on Medium, Substack, and Dev.to. Hosted 8 Twitter Spaces with 600+ listeners, focusing on AI education and career development.'
+  },
+  {
+    name: 'Leadership & Mentorship',
+    icon: React.createElement(Award, { className: 'w-8 h-8' }),
+    level: 94,
+    color: 'from-indigo-500 to-purple-500',
+    description: 'Led 300+ bootcamp graduates to successful tech careers. Co-founder of LuxDev HQ, completed McKinsey Forward Program. Active Technovation Challenge mentor, guiding young women in technology and entrepreneurship with measurable impact.'
   }
 ];

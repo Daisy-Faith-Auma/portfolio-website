@@ -1,26 +1,39 @@
+import React from 'react';
+
 export interface Skill {
-  id: string;
-  title: string;
+  name: string;
+  icon: React.ReactElement;
+  level: number; // Percentage (0-100)
+  color: string; // Tailwind gradient classes
   description: string;
-  icon: string;
-  projects: Project[];
 }
 
 export interface Project {
   title: string;
   description: string;
-  impact: string[];
-  tags: string[];
-  links?: {
-    demo?: string;
-    repo?: string;
-    article?: string;
-  };
+  tech: string[];
+  image: string; // Unsplash or project image URL
+  github: string;
+  live: string;
 }
 
-export interface ContactLink {
+export interface ContentLink {
   platform: string;
+  handle: string;
+  description: string;
   url: string;
-  icon: string;
-  category: 'personal' | 'professional';
+  icon: React.ReactElement;
+  color: string; // Hover color class
+}
+
+export interface Achievement {
+  title: string;
+  year: string;
+  organization: string;
+  description: string;
+}
+
+export interface MousePosition {
+  x: number;
+  y: number;
 }

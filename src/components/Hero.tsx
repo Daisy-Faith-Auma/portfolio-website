@@ -1,26 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, ExternalLink, Github, LinkedinIcon, Youtube, Mail, Code, Twitter } from 'lucide-react';
-import { contactLinks } from '../data/contact';
+import { ArrowDown, ExternalLink } from 'lucide-react';
+import { contactLinks } from '../data/contactLinks';
 
 const Hero: React.FC = () => {
-  // Get key social media links for quick access
-  const quickAccessLinks = contactLinks.filter(link => 
-    ['LinkedIn', 'GitHub', 'YouTube', 'Twitter/X', 'Substack'].includes(link.platform)
-  );
-
-  // Icon mapping for social media platforms
-  const getIcon = (iconName: string) => {
-    const iconMap: { [key: string]: React.ComponentType<{ className?: string }> } = {
-      'Linkedin': LinkedinIcon,
-      'Github': Github,
-      'Youtube': Youtube,
-      'Twitter': Twitter,
-      'Mail': Mail,
-      'Code': Code
-    };
-    return iconMap[iconName] || ExternalLink;
-  };
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -103,33 +86,32 @@ const Hero: React.FC = () => {
               Connect with me
             </p>
             <div className="flex justify-center flex-wrap gap-2 sm:gap-3 px-4 sm:px-0">
-              {quickAccessLinks.map((link, index) => {
-                const IconComponent = getIcon(link.icon);
-                return (
-                  <motion.a
-                    key={link.platform}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-touch card-brand inline-flex items-center px-3 sm:px-4 py-2 transition-all duration-200"
-                    aria-label={`Visit my ${link.platform} profile (opens in new tab)`}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 1.4 + index * 0.1 }}
-                    whileHover={{ 
-                      scale: 1.05, 
-                      y: -2,
-                      boxShadow: "0 10px 25px rgba(0,0,0,0.1)"
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <IconComponent className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 mr-1 sm:mr-2" />
-                    <span className="text-xs sm:text-sm font-medium text-gray-700 hidden xs:inline">
-                      {link.platform.replace('Twitter/X', 'Twitter')}
-                    </span>
-                  </motion.a>
-                );
-              })}
+              {contactLinks.map((link, index) => (
+                <motion.a
+                  key={link.platform}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`btn-touch card-brand inline-flex items-center px-3 sm:px-4 py-2 transition-all duration-200 ${link.color}`}
+                  aria-label={`Visit my ${link.platform} profile (opens in new tab)`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 1.4 + index * 0.1 }}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    y: -2,
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.1)"
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <div className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 mr-1 sm:mr-2">
+                    {link.icon}
+                  </div>
+                  <span className="text-xs sm:text-sm font-medium text-gray-700 hidden xs:inline">
+                    {link.platform.replace('Twitter/X', 'Twitter')}
+                  </span>
+                </motion.a>
+              ))}
             </div>
           </motion.div>
 
